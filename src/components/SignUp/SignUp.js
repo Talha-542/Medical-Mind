@@ -1,28 +1,31 @@
 
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { doCreateUserWithEmailAndPassword } from '../../firebase/auth'; 
+import { doCreateUserWithEmailAndPassword } from '../../firebase/auth';
 import './SignUp.css';
 
 export default function SignUp() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const [education, setEducation] = useState('');
   const [email, setEmail] = useState('');
+  const [designation, setDesignation] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  // Handle sign-up submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(''); // Clear previous errors
-
+    setError('');
     try {
-      const userCredential = await doCreateUserWithEmailAndPassword(email, password);
+      const userCredential = await doCreateUserWithEmailAndPassword(email, password, {
+        firstName,
+        lastName,
+        education,
+        designation,
+        email
+      });
       console.log('User created successfully:', userCredential.user);
-      
-      // Optionally, you can save the user's first and last name in your database
-      // After successful signup, navigate to the sign-in page
       navigate('/sign-in');
     } catch (err) {
       setError(err.message);
@@ -42,49 +45,71 @@ export default function SignUp() {
                 <form onSubmit={handleSubmit}>
 
                   <div className="form-floating mb-3">
-                    <input 
-                      type="text" 
-                      className="form-control" 
-                      id="firstName" 
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="firstName"
                       value={firstName}
-                      onChange={(e) => setFirstName(e.target.value)} 
-                      required 
+                      onChange={(e) => setFirstName(e.target.value)}
+                      required
                     />
                     <label htmlFor="firstName">First Name</label>
                   </div>
 
                   <div className="form-floating mb-3">
-                    <input 
-                      type="text" 
-                      className="form-control" 
-                      id="lastName" 
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="lastName"
                       value={lastName}
-                      onChange={(e) => setLastName(e.target.value)} 
-                      required 
+                      onChange={(e) => setLastName(e.target.value)}
+                      required
                     />
                     <label htmlFor="lastName">Last Name</label>
                   </div>
 
                   <div className="form-floating mb-3">
-                    <input 
-                      type="email" 
-                      className="form-control" 
-                      id="email" 
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="education"
+                      value={education}
+                      onChange={(e) => setEducation(e.target.value)}
+                    />
+                    <label htmlFor="education">Education</label>
+                  </div>
+
+                  <div className="form-floating mb-3">
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="designation"
+                      value={designation}
+                      onChange={(e) => setDesignation(e.target.value)}
+                    />
+                    <label htmlFor="designation">Designation</label>
+                  </div>
+
+                  <div className="form-floating mb-3">
+                    <input
+                      type="email"
+                      className="form-control"
+                      id="email"
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)} 
-                      required 
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
                     />
                     <label htmlFor="email">Email</label>
                   </div>
 
                   <div className="form-floating mb-3">
-                    <input 
-                      type="password" 
-                      className="form-control" 
-                      id="password" 
+                    <input
+                      type="password"
+                      className="form-control"
+                      id="password"
                       value={password}
-                      onChange={(e) => setPassword(e.target.value)} 
-                      required 
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
                     />
                     <label htmlFor="password">Password</label>
                   </div>
