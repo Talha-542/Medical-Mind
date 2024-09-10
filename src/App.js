@@ -8,6 +8,7 @@ import SignUp from './components/SignUp/SignUp';
 import Header from './components/Header/Header';
 import Dashboard from './components/Dashboard/Dashboard';
 
+
 export default function App() {
   return (
     <Router>
@@ -18,7 +19,10 @@ export default function App() {
         <Route path="/contact-us" element={<Contact />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route
+          path="/dashboard"
+          element={<Dashboard />}
+        />
 
         <Route element={() => <h1>404 - Not Found</h1>} />
       </Routes>

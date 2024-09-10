@@ -1,0 +1,36 @@
+.banner {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("./banner.jpg");
+
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    height: 100vh;
+    z-index: 0;
+}
+.bannerContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    animation: fadein 3s;
+}
+.bannerHeading {
+    color: white;
+    font-size: 40px;
+}
+.bannerParagraph {
+    color: white;
+    margin-top: 20px;
+    text-align: center;
+}
+
+
+@keyframes fadein {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
