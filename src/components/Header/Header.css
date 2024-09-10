@@ -1,0 +1,11 @@
+.logo {
+    color: white !important;
+    font-size: 30px;
+}
+.nav-link {
+    color: white !important;
+    font-size: 20px;
+}
+.navbar-toggler {
+    border-color: white ;
+}
