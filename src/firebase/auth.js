@@ -1,26 +1,27 @@
-import { auth } from '../firebaseConfig';
-import { 
-  createUserWithEmailAndPassword, 
-  signInWithEmailAndPassword, 
-  signInWithPopup, 
-  GoogleAuthProvider, 
-  sendPasswordResetEmail, 
-  updatePassword, 
-  sendEmailVerification 
-} from 'firebase/auth'; 
-// Correct imports
+import { auth, db } from '../firebaseConfig';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, sendPasswordResetEmail, updatePassword, sendEmailVerification } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
 
-// Function to create a user with email and password
-export const doCreateUserWithEmailAndPassword = async (email, password) => {
+const saveUserData = async (userId, additionalData) => {
+  try {
+    const userDocRef = doc(db, 'users', userId);
+    await setDoc(userDocRef, additionalData);
+  } catch (error) {
+    console.error('Error saving user data:', error);
+    throw error;
+  }
+};
+
+export const doCreateUserWithEmailAndPassword = async (email, password, additionalData) => {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    await saveUserData(userCredential.user.uid, additionalData);
     return userCredential;
   } catch (error) {
     throw error;
   }
 };
 
-// Function to sign in with email and password
 export const doSignInWithEmailAndPassword = async (email, password) => {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -31,11 +32,10 @@ export const doSignInWithEmailAndPassword = async (email, password) => {
   }
 };
 
-// Function to sign in with Google
 export const doSignInWithGoogle = async () => {
-  const provider = new GoogleAuthProvider(); // Initialize Google provider
+  const provider = new GoogleAuthProvider();
   try {
-    const result = await signInWithPopup(auth, provider); // Use signInWithPopup
+    const result = await signInWithPopup(auth, provider);
     return result;
   } catch (error) {
     console.error("Error signing in with Google: ", error);
@@ -43,7 +43,6 @@ export const doSignInWithGoogle = async () => {
   }
 };
 
-// Function to send password reset email
 export const doPasswordReset = async (email) => {
   try {
     await sendPasswordResetEmail(auth, email);
@@ -54,7 +53,6 @@ export const doPasswordReset = async (email) => {
   }
 };
 
-// Function to change the password of the current user
 export const doPasswordChange = async (password) => {
   const user = auth.currentUser;
   if (user) {
@@ -70,13 +68,12 @@ export const doPasswordChange = async (password) => {
   }
 };
 
-// Function to send email verification to the current user
 export const doSendEmailVerification = async () => {
   const user = auth.currentUser;
   if (user) {
     try {
       await sendEmailVerification(user, {
-        url: `${window.location.origin}/home` // Redirect URL after email verification
+        url: `${window.location.origin}/home`
       });
       console.log("Email verification sent");
     } catch (error) {
@@ -87,10 +84,6 @@ export const doSendEmailVerification = async () => {
     console.error("No user is logged in.");
   }
 };
-
-
-
-
 
 export const doSignOut = async () => {
   try {
