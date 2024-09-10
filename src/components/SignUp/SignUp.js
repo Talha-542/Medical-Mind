@@ -12,17 +12,13 @@ export default function SignUp() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  // Handle sign-up submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(''); // Clear previous errors
+    setError(''); 
 
     try {
       const userCredential = await doCreateUserWithEmailAndPassword(email, password);
       console.log('User created successfully:', userCredential.user);
-      
-      // Optionally, you can save the user's first and last name in your database
-      // After successful signup, navigate to the sign-in page
       navigate('/sign-in');
     } catch (err) {
       setError(err.message);
