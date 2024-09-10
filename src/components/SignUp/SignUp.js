@@ -12,11 +12,14 @@ export default function SignUp() {
   const [designation, setDesignation] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(''); 
+    setLoading(true);
     try {
       const userCredential = await doCreateUserWithEmailAndPassword(email, password, {
         firstName,
@@ -41,7 +44,7 @@ export default function SignUp() {
             <div className="card border-0 shadow rounded-3 my-5">
               <div className="card-body p-4 p-sm-5">
                 <h1 className='card-title text-center mb-5 fw-bold fs-2'>Sign Up</h1>
-                {error && <p className="text-danger">{error}</p>} {/* Display any error */}
+                {error && <p className="text-danger">{error}</p>}
                 <form onSubmit={handleSubmit}>
 
                   <div className="form-floating mb-3">
@@ -114,13 +117,17 @@ export default function SignUp() {
                     <label htmlFor="password">Password</label>
                   </div>
 
-                  <div className="d-grid">
-                    <button type="submit" className='btn btn-primary btn-login text-uppercase fw-bold'>Sign Up</button>
-                    <br />
+                  <button
+                    type="submit"
+                    className="btn btn-primary w-100"
+                    disabled={loading}
+                  >
+                    {loading ? 'Signing Up...' : 'Sign Up'}
+                  </button>
                     <p className='alreadyHaveAccount'>
                       Already Have Account? <Link to='/sign-in' className='signUp'>Sign In</Link>
                     </p>
-                  </div>
+                  
 
                 </form>
               </div>
