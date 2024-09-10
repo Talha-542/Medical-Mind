@@ -1,0 +1,14 @@
+.card-title {
+    font-weight: 600;
+    font-style: normal ;
+    font-size: 25px;
+    letter-spacing: 0.3px;
+}
+.notHaveAccount {
+    font-size: 18px;
+}
+.signUp {
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+}
