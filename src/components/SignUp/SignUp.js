@@ -16,7 +16,7 @@ export default function SignUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setError(''); 
     try {
       const userCredential = await doCreateUserWithEmailAndPassword(email, password, {
         firstName,
