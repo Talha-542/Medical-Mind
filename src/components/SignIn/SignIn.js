@@ -12,10 +12,10 @@ export default function SignIn() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await doSignInWithEmailAndPassword(email, password); 
-      navigate('/dashboard'); 
+      await doSignInWithEmailAndPassword(email, password);
+      navigate('/dashboard'); // Navigate to dashboard on successful sign-in
     } catch (err) {
-      setError('Failed to sign in. Please check your credentials.'); // Set error message
+      setError('Failed to sign in. Please check your credentials.');
     }
   };
 
