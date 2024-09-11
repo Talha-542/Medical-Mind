@@ -7,7 +7,8 @@ import SignIn from './components/SignIn/SignIn'
 import SignUp from './components/SignUp/SignUp';
 import Header from './components/Header/Header';
 import Dashboard from './components/Dashboard/Dashboard';
-
+import Admin from './pages/Admin/Admin';
+import AdminDashboard from './components/AdminDashboard/AdminDashboard'
 
 export default function App() {
   return (
@@ -19,6 +20,8 @@ export default function App() {
         <Route path="/contact-us" element={<Contact />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/admin" element={<Admin />} />
+        <Route path="/admin-dashboard" element={<AdminDashboard/>} />
         <Route
           path="/dashboard"
           element={<Dashboard />}
