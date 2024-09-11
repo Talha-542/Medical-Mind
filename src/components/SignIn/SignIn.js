@@ -86,6 +86,9 @@ export default function SignIn() {
                   <p className='notHaveAccount mt-2'>
                     Not Have Account? <Link to='/sign-up' className='signUp'>Sign Up</Link>
                   </p>
+                  <p className='notHaveAccount'>
+                    Switch to  <Link to='/admin' className='admin'>Admin</Link>
+                  </p>
                 </form>
               </div>
             </div>
