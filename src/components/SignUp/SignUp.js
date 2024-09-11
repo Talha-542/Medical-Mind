@@ -124,7 +124,7 @@ export default function SignUp() {
                   >
                     {loading ? 'Signing Up...' : 'Sign Up'}
                   </button>
-                    <p className='alreadyHaveAccount'>
+                    <p className='alreadyHaveAccount mt-2'>
                       Already Have Account? <Link to='/sign-in' className='signUp'>Sign In</Link>
                     </p>
                   
