@@ -9,9 +9,9 @@ export default function Header() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-            if (user) {
-                setUser(user); 
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            if (currentUser) {
+                setUser(currentUser); 
             } else {
                 setUser(null); 
             }
@@ -20,7 +20,6 @@ export default function Header() {
         return () => unsubscribe(); 
     }, []);
 
-    
     const handleSignOut = async () => {
         try {
             await signOut(auth); 
@@ -46,7 +45,10 @@ export default function Header() {
                             <Link to='/about-us' className='nav-link'>About Us</Link>
                             <Link to='/contact-us' className='nav-link'>Contact Us</Link>
                             {user ? (
-                                <button className='nav-link btn' onClick={handleSignOut}>Sign Out</button>
+                                <>
+                                    <Link to='/dashboard' className='nav-link'>Dashboard</Link>
+                                    {/* <button onClick={handleSignOut} className="nav-link btn btn-link text-white">Sign Out</button> */}
+                                </>
                             ) : (
                                 <Link to='/sign-in' className='nav-link'>Sign In</Link>
                             )}
