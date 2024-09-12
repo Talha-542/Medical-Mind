@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { collection, getDocs, doc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '../../firebaseConfig';
 import styles from './ViewAllUsers.module.css';
+import { deleteUser, getAuth } from 'firebase/auth';
 
 export default function ViewAllUsers() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editUser, setEditUser] = useState(null); // State to manage the user being edited
   const [formData, setFormData] = useState({}); // State to manage form data
+
+  const editFormRef = useRef(null); // Create a ref for the edit form
 
   // Fetch Users Function
   const fetchUsers = async () => {
@@ -22,12 +25,10 @@ export default function ViewAllUsers() {
     }
   };
 
-  // Fetch users when component mounts
   useEffect(() => {
     fetchUsers();
   }, []);
 
-  // Handle Edit Button Click
   const handleEdit = (user) => {
     setEditUser(user);
     setFormData({
@@ -38,9 +39,15 @@ export default function ViewAllUsers() {
       education: user.education,
       role: user.role,
     });
+    
+    // Delay scroll to ensure the form is rendered
+    setTimeout(() => {
+      if (editFormRef.current) {
+        editFormRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100); // Adjust the delay if necessary
   };
 
-  // Handle Form Input Change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -59,14 +66,17 @@ export default function ViewAllUsers() {
     }
   };
 
-  // Handle Delete
   const handleDelete = async (id) => {
     try {
       const docRef = doc(db, 'users', id);
       await deleteDoc(docRef);
-      fetchUsers(); // Refresh user list
+
+      const auth = getAuth();
+      const user = await auth.getUser(id); 
+      await deleteUser(user); 
+      fetchUsers(); 
     } catch (error) {
-      console.error('Error deleting user:', error);
+      console.error('Error deleting user and account:', error);
     }
   };
 
@@ -78,26 +88,38 @@ export default function ViewAllUsers() {
     <div className={styles.container}>
       <h1>All Users</h1>
       {users.length > 0 ? (
-        <ul className={styles.userList}>
-          {users.map(user => (
-            <li key={user.id} className={styles.userItem}>
-              <p><strong>Name:</strong> {user.firstName} {user.lastName}</p>
-              <p><strong>Email:</strong> {user.email}</p>
-              <p><strong>Profession:</strong> {user.profession}</p>
-              <p><strong>Education:</strong> {user.education}</p>
-              <p><strong>Role:</strong> {user.role}</p>
-              <button onClick={() => handleEdit(user)}>Edit</button>
-              <button onClick={() => handleDelete(user.id)}>Delete</button>
-            </li>
-          ))}
-        </ul>
+        <table className={styles.userTable}>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Profession</th>
+              <th>Education</th>
+              <th>Role</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map(user => (
+              <tr key={user.id}>
+                <td>{user.firstName} {user.lastName}</td>
+                <td>{user.email}</td>
+                <td>{user.profession}</td>
+                <td>{user.education}</td>
+                <td>{user.role}</td>
+                <td>
+                  <button className={styles.editButton} onClick={() => handleEdit(user)}>Edit</button>
+                  <button className={styles.deleteButton} onClick={() => handleDelete(user.id)}>Delete</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       ) : (
         <p>No users found.</p>
       )}
-
-      {/* Edit Form */}
       {editUser && (
-        <form onSubmit={handleUpdate}>
+        <form onSubmit={handleUpdate} className={styles.editForm} ref={editFormRef}>
           <h2>Edit User</h2>
           <input
             type="text"
@@ -141,8 +163,8 @@ export default function ViewAllUsers() {
             onChange={handleChange}
             placeholder="Role"
           />
-          <button type="submit">Update</button>
-          <button type="button" onClick={() => setEditUser(null)}>Cancel</button>
+          <button className={styles.update} type="submit">Update</button>
+          <button className={styles.cancel} type="button" onClick={() => setEditUser(null)}>Cancel</button>
         </form>
       )}
     </div>

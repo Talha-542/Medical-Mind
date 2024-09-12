@@ -1,25 +1,128 @@
+
 .container {
-    padding: 20px;
-  }
-  
-  h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
-  }
-  
-  .userList {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .userItem {
-    border: 1px solid #ddd;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 4px;
-  }
-  
-  .userItem p {
-    margin: 5px 0;
-  }
-  
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Heading */
+h1 {
+  text-align: center;
+  color: #007bff; /* Primary Blue */
+  margin-bottom: 20px;
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+
+.userTable {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #007bff;
+}
+
+.userTable thead {
+  background-color: #007bff;
+  color: white;
+}
+
+.userTable th, .userTable td {
+  padding: 16px;
+  text-align: left;
+  border-bottom: 1px solid #e3e6ea;
+  color: black;
+}
+
+.userTable th {
+  font-weight: 600;
+}
+
+.userTable tr {
+  background-color: #ffffff;
+}
+
+.userTable td {
+  vertical-align: middle;
+}
+
+/* Edit and Delete button styles */
+.userTable button {
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+.editButton {
+  background-color: #007bff; /* Blue for edit */
+  color: white;
+}
+
+.deleteButton {
+  background-color: #dc3545; /* Red for delete */
+  color: white;
+}
+
+/* Edit Form styling */
+.editForm {
+  background: #ffffff;
+  border: 1px solid #e3e6ea;
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.editForm h2 {
+  margin-top: 0;
+  color: #007bff;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+/* Form input fields */
+.editForm input {
+  width: calc(100% - 24px);
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  font-size: 16px;
+  color: #495057;
+  background: #ffffff;
+}
+
+.editForm input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.2);
+}
+
+/* Update and Cancel button styles */
+.update {
+  background-color: #007bff;
+  color: white;
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.cancel {
+  background-color: #6c757d;
+  color: white;
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 6px;
+}
