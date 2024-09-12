@@ -7,12 +7,12 @@ import { deleteUser, getAuth } from 'firebase/auth';
 export default function ViewAllUsers() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [editUser, setEditUser] = useState(null); // State to manage the user being edited
-  const [formData, setFormData] = useState({}); // State to manage form data
+  const [editUser, setEditUser] = useState(null); 
+  const [formData, setFormData] = useState({}); 
 
-  const editFormRef = useRef(null); // Create a ref for the edit form
+  const editFormRef = useRef(null); 
 
-  // Fetch Users Function
+  
   const fetchUsers = async () => {
     try {
       const usersCollectionRef = collection(db, 'users');
@@ -40,12 +40,12 @@ export default function ViewAllUsers() {
       role: user.role,
     });
     
-    // Delay scroll to ensure the form is rendered
+    
     setTimeout(() => {
       if (editFormRef.current) {
         editFormRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
-    }, 100); // Adjust the delay if necessary
+    }, 100); 
   };
 
   const handleChange = (e) => {
@@ -53,14 +53,14 @@ export default function ViewAllUsers() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Handle Update
+  
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
       const docRef = doc(db, 'users', editUser.id);
       await updateDoc(docRef, formData);
       setEditUser(null);
-      fetchUsers(); // Refresh user list
+      fetchUsers(); 
     } catch (error) {
       console.error('Error updating user:', error);
     }

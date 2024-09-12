@@ -81,7 +81,11 @@
     transition: background-color 0.3s ease;
   }
   
-  .link{
+  .allUsers{
     text-decoration: none;
     color: #bdc3c7;
+  }
+  .allUsers:hover {
+    color: #bdc3c7;
+
   }
