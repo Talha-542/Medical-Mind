@@ -27,7 +27,15 @@ export default function SignIn() {
         console.log('User data:', userData); 
 
        
-        navigate('/dashboard', { state: { userData } });
+        if (userData.role === 'patient') {
+          navigate('/dashboard');
+        } else if (userData.role === 'doctor') {
+          navigate('/doctor-dashboard');
+        } else if (userData.role === 'admin') {
+          navigate('/admin-dashboard'); 
+        } else {
+          navigate('/dashboard'); 
+        }
 
       } else {
         setError('User data not found');
@@ -86,9 +94,9 @@ export default function SignIn() {
                   <p className='notHaveAccount mt-2'>
                     Not Have Account? <Link to='/sign-up' className='signUp'>Sign Up</Link>
                   </p>
-                  <p className='notHaveAccount'>
-                    Switch to  <Link to='/admin' className='admin'>Admin</Link>
-                  </p>
+                  {/* <p className='notHaveAccount'>
+                    Switch to <Link to='/admin' className='admin'>Admin</Link>
+                  </p> */}
                 </form>
               </div>
             </div>

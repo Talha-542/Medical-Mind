@@ -1,0 +1,25 @@
+.container {
+    padding: 20px;
+  }
+  
+  h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .userList {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .userItem {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+  }
+  
+  .userItem p {
+    margin: 5px 0;
+  }
+  

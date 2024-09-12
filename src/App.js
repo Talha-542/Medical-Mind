@@ -8,7 +8,10 @@ import SignUp from './components/SignUp/SignUp';
 import Header from './components/Header/Header';
 import Dashboard from './components/Dashboard/Dashboard';
 import Admin from './pages/Admin/Admin';
-import AdminDashboard from './components/AdminDashboard/AdminDashboard'
+import DoctorDashboard from './pages/doctor/DoctorDashboard'
+import AdminDashboard from './components/AdminDashboard/AdminDashboard';
+import ViewAllUsers from './components/AllUsers/ViewAllUsers';
+
 
 export default function App() {
   return (
@@ -21,7 +24,9 @@ export default function App() {
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/doctor-dashboard" element={<DoctorDashboard/>} />
         <Route path="/admin-dashboard" element={<AdminDashboard/>} />
+        <Route path="/view-all-users" element={<ViewAllUsers />} />
         <Route
           path="/dashboard"
           element={<Dashboard />}
