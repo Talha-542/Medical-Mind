@@ -7,12 +7,12 @@ import { deleteUser, getAuth } from 'firebase/auth';
 export default function ViewAllUsers() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [editUser, setEditUser] = useState(null); 
-  const [formData, setFormData] = useState({}); 
+  const [editUser, setEditUser] = useState(null);
+  const [formData, setFormData] = useState({});
 
-  const editFormRef = useRef(null); 
+  const editFormRef = useRef(null);
 
-  
+
   const fetchUsers = async () => {
     try {
       const usersCollectionRef = collection(db, 'users');
@@ -39,13 +39,13 @@ export default function ViewAllUsers() {
       education: user.education,
       role: user.role,
     });
-    
-    
+
+
     setTimeout(() => {
       if (editFormRef.current) {
         editFormRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
-    }, 100); 
+    }, 100);
   };
 
   const handleChange = (e) => {
@@ -53,14 +53,14 @@ export default function ViewAllUsers() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  
+
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
       const docRef = doc(db, 'users', editUser.id);
       await updateDoc(docRef, formData);
       setEditUser(null);
-      fetchUsers(); 
+      fetchUsers();
     } catch (error) {
       console.error('Error updating user:', error);
     }
@@ -72,9 +72,9 @@ export default function ViewAllUsers() {
       await deleteDoc(docRef);
 
       const auth = getAuth();
-      const user = await auth.getUser(id); 
-      await deleteUser(user); 
-      fetchUsers(); 
+      const user = await auth.getUser(id);
+      await deleteUser(user);
+      fetchUsers();
     } catch (error) {
       console.error('Error deleting user and account:', error);
     }
@@ -141,6 +141,7 @@ export default function ViewAllUsers() {
             value={formData.email}
             onChange={handleChange}
             placeholder="Email"
+            disabled
           />
           <input
             type="text"
@@ -156,13 +157,16 @@ export default function ViewAllUsers() {
             onChange={handleChange}
             placeholder="Education"
           />
-          <input
-            type="text"
+          <select
             name="role"
             value={formData.role}
             onChange={handleChange}
-            placeholder="Role"
-          />
+          >
+            <option value="" disabled>Select Role</option>
+            <option value="doctor">Doctor</option>
+            <option value="patient">Patient</option>
+          </select>
+
           <button className={styles.update} type="submit">Update</button>
           <button className={styles.cancel} type="button" onClick={() => setEditUser(null)}>Cancel</button>
         </form>
