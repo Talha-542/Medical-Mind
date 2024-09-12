@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { doCreateUserWithEmailAndPassword } from '../../firebase/auth';
@@ -9,7 +8,8 @@ export default function SignUp() {
   const [lastName, setLastName] = useState('');
   const [education, setEducation] = useState('');
   const [email, setEmail] = useState('');
-  const [designation, setDesignation] = useState('');
+  const [role, setRole] = useState(''); 
+  const [profession, setProfession] = useState('')
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -25,14 +25,27 @@ export default function SignUp() {
         firstName,
         lastName,
         education,
-        designation,
+        profession,
+        role,
         email
       });
       console.log('User created successfully:', userCredential.user);
-      navigate('/sign-in');
+      if (role === 'patient') {
+        navigate('/dashboard');
+      } else if (role === 'doctor') {
+        navigate('/doctor-dashboard');
+      } else if(role==='admin'){
+        navigate('/admin-dashboard')
+
+      }
+       else {
+        navigate('/sign-in'); 
+      }
     } catch (err) {
       setError(err.message);
       console.error('Error signing up:', err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -82,15 +95,30 @@ export default function SignUp() {
                     <label htmlFor="education">Education</label>
                   </div>
 
+                  {/* <div className="form-floating mb-3">
+                    <select
+                      className="form-select"
+                      id="role"
+                      value={role}
+                      onChange={(e) => setRole(e.target.value)}
+                    >
+                      <option value="patient">Patient</option>
+                      <option value="doctor">Doctor</option>
+                      <option value="admin">Admin</option>
+                    </select>
+                    <label htmlFor="role">Role</label>
+                  </div> */}
+
                   <div className="form-floating mb-3">
                     <input
-                      type="text"
+                      type="profession"
                       className="form-control"
-                      id="designation"
-                      value={designation}
-                      onChange={(e) => setDesignation(e.target.value)}
+                      id="profession"
+                      value={profession}
+                      onChange={(e) => setProfession(e.target.value)}
+                      required
                     />
-                    <label htmlFor="designation">Designation</label>
+                    <label htmlFor="email">Profession</label>
                   </div>
 
                   <div className="form-floating mb-3">
@@ -127,8 +155,6 @@ export default function SignUp() {
                     <p className='alreadyHaveAccount mt-2'>
                       Already Have Account? <Link to='/sign-in' className='signUp'>Sign In</Link>
                     </p>
-                  
-
                 </form>
               </div>
             </div>

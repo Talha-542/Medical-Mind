@@ -1,9 +1,10 @@
+import Sidebar from '../../components/SideBar/Sidebar'
+import styles from './DoctorDashboard.module.css'
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { auth, db } from '../../firebaseConfig'; 
+import { auth, db } from '../../firebaseConfig';
 import { signOut, onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore'; 
-import styles from './Dashboard.module.css'; 
 
 export default function Dashboard() {
   const [userData, setUserData] = useState(null);
@@ -14,21 +15,21 @@ export default function Dashboard() {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         try {
-          const userDocRef = doc(db, 'users', user.uid); // Fetch doc by UID
+          const userDocRef = doc(db, 'users', user.uid); 
           const userDoc = await getDoc(userDocRef);
           
           if (userDoc.exists()) {
-            setUserData(userDoc.data()); // Set the additional user data
+            setUserData(userDoc.data()); 
           } else {
             console.error('No such user document!');
           }
         } catch (error) {
           console.error('Error fetching user data:', error);
         } finally {
-          setLoading(false); // Stop loading once data is fetched
+          setLoading(false); 
         }
       } else {
-        navigate('/sign-in'); // Redirect to sign-in if not authenticated
+        navigate('/sign-in'); 
       }
     });
 
@@ -53,18 +54,11 @@ export default function Dashboard() {
   }
 
   return (
+    
     <div className={styles.dashboardContainer}>
-      <div className={styles.sidebar}>
-        <h2>Dashboard</h2>
-        <ul>
-          <li>Profile</li>
-          <li>Settings</li>
-          <li>Notifications</li>
-          <li onClick={handleSignOut}>Logout</li>
-        </ul>
-      </div>
+      <Sidebar/>
       <div className={styles.mainContent}>
-        <h1>Welcome, {userData.firstName} {userData.lastName}</h1>
+        <h1>Welcome, Dr {userData.firstName} {userData.lastName}</h1>
         <div className={styles.userInfo}>
           <p><strong>Email:</strong> {userData.email}</p>
           <p><strong>Profession:</strong> {userData.profession}</p>
@@ -72,5 +66,6 @@ export default function Dashboard() {
         </div>
       </div>
     </div>
+    
   );
 }
