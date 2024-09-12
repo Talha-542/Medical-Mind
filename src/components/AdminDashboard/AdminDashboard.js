@@ -58,7 +58,7 @@ export default function AdminDashboard() {
         <h2>Dashboard</h2>
         <ul>
           <li>Profile</li>
-          <li className={styles.link} ><Link to="/view-all-users">View All Users</Link></li>
+          <li ><Link to="/view-all-users" className={styles.allUsers}>View All Users</Link></li>
           <li>Settings</li>
           <li>Notifications</li>
           <li onClick={handleSignOut}>Logout</li>
