@@ -10,6 +10,7 @@ export default function SignUp() {
   const [email, setEmail] = useState('');
   const [role, setRole] = useState('patient'); 
   const [profession, setProfession] = useState('')
+  const [medical, setMedical] = useState('Not Available')
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -27,7 +28,8 @@ export default function SignUp() {
         education,
         profession,
         role,
-        email
+        email, 
+        medical
       });
       console.log('User created successfully:', userCredential.user);
       if (role === 'patient') {

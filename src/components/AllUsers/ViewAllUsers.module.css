@@ -126,3 +126,27 @@ h1 {
   border: none;
   border-radius: 6px;
 }
+select {
+  width: 98.2%;
+  padding:12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  color: #333;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+select:focus {
+  border-color: #007bff;
+}
+
+select option {
+  padding: 10px;
+}
+
+
+select option[disabled] {
+  color: #888;
+}
