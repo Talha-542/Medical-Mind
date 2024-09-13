@@ -52,7 +52,10 @@ export default function Dashboard() {
     return <p>No user data available.</p>;
   }
 
+
   const hasMedicalRecord = userData.medical && userData.medical.trim() !== '';
+
+  const isPdf = hasMedicalRecord && userData.medical.endsWith('.pdf');
 
   return (
     <div className={styles.dashboardContainer}>
@@ -71,12 +74,11 @@ export default function Dashboard() {
           <p><strong>Email:</strong> {userData.email}</p>
           <p><strong>Profession:</strong> {userData.profession}</p>
           <p><strong>Education:</strong> {userData.education}</p>
+
+          {/* Display appropriate message based on the presence of a medical record */}
           <p><strong>Medical Record: </strong>{hasMedicalRecord ? 'Available ✅' : 'Not Available'}</p>
 
-       
-
-         
-          
+        
         </div>
       </div>
     </div>
