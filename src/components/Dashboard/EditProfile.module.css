@@ -1,158 +1,185 @@
+/* General layout and structure */
 .dashboardContainer {
-    display: flex;
-    height: 100vh;
-    background-color: #f4f4f4;
-  }
-    
-  .sidebar {
-    width: 250px;
-    background-color: #2c3e50;
-    color: #ecf0f1;
-    padding: 20px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .sidebar h2 {
-    margin-bottom: 20px;
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #fff;
-  }
-  
-  .sidebar ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .sidebar ul li {
-    margin: 15px 0;
-    font-size: 1.1rem;
-    cursor: pointer;
-    padding: 10px;
-    color: #bdc3c7;
-  }
-  
-  .sidebar ul li:hover {
-    color: #fff;
-    background-color: #34495e;
-    border-radius: 5px;
-    transition: 0.3s;
-  }
-  
- 
-  .mainContent {
-    flex-grow: 1;
-    padding: 40px;
-    background-color: #fff;
-  }
-  
-  .mainContent h1 {
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 20px;
-    color: #2c3e50;
-  }
-  
-  .userInfo {
-    background-color: #ecf0f1;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .userInfo p {
-    font-size: 1.1rem;
-    margin: 10px 0;
-    color: #2c3e50;
-  }
-  
-  .userInfo strong {
-    color: #34495e;
-  }
-  
-  .logoutButton {
-    background-color: transparent;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    cursor: pointer;
-    font-size: 1.1rem;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-  }
-  
-  /* Main content styling */
+  display: flex;
+  height: 100vh;
+  background-color: #f4f4f4;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Sidebar styling */
+.sidebar {
+  width: 250px;
+  background-color: #2c3e50;
+  color: #ecf0f1;
+  padding: 30px 20px;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sidebar h2 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 30px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1;
+}
+
+.sidebar ul li {
+  margin: 20px 0;
+  font-size: 1.2rem;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #bdc3c7;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.sidebar ul li:hover {
+  background-color: #1c2833;
+  color: #fff;
+}
+
+.sidebar ul li.active {
+  background-color: #34495e;
+  color: #fff;
+}
+
+.logoutButton {
+  background-color: transparent;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.logoutButton:hover {
+  background-color: #e74c3c;
+}
+
+/* Main content styling */
 .mainContent {
   flex-grow: 1;
   padding: 40px;
+  background-color: #fff;
+  overflow-y: auto;
 }
 
-h1 {
-  margin-bottom: 20px;
+.mainContent h1 {
+  font-size: 2.4rem;
+  color: #2c3e50;
+  margin-bottom: 30px;
+  font-weight: 500;
+  letter-spacing: 1px;
 }
 
-/* User info display */
+.userInfo {
+  background-color: #ecf0f1;
+  padding: 25px 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 40px;
+}
+
 .userInfo p {
-  margin: 10px 0;
-  font-size: 16px;
-}
-
-/* Styling for the pencil icon */
-.editIcon {
-  cursor: pointer;
-  font-size: 20px;
-  margin-top: 10px;
-  color: #007bff;
-  display: inline-block;
-}
-
-.editIcon:hover {
-  color: #0056b3;
+  font-size: 1.2rem;
+  color: #34495e;
+  margin-bottom: 12px;
+  line-height: 1.6;
 }
 
 /* Edit form styling */
 .editForm {
-  margin-top: 20px;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  max-width: 600px;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 700px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 120px); /* Adjusted to fit within the viewport */
+  overflow-y: auto;
+}
+
+/* Hide scrollbar */
+.editForm::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for Chrome, Safari and Opera */
+}
+.editForm {
+  -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
+  scrollbar-width: none; /* Hide scrollbar for Firefox */
 }
 
 .editForm h2 {
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: #2c3e50;
   margin-bottom: 20px;
-  font-size: 24px;
-  color: #333;
+}
+
+.editForm .formGroup {
+  margin-bottom: 20px;
+}
+
+.editForm label {
+  display: block;
+  font-size: 1.1rem;
+  color: #34495e;
+  margin-bottom: 8px;
+  font-weight: 500;
 }
 
 .editForm input,
 .editForm select {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  font-size: 16px;
+  padding: 12px;
+  font-size: 1rem;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 8px;
   box-sizing: border-box;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s ease;
+}
+
+.editForm input:focus,
+.editForm select:focus {
+  border-color: #3498db;
+  outline: none;
 }
 
 .editForm input:disabled {
   background-color: #e9ecef;
 }
 
+.editForm .formGroup:last-of-type {
+  margin-top: 20px;
+}
+
 .editForm button {
-  padding: 10px 15px;
-  font-size: 16px;
-  border: none;
-  border-radius: 5px;
+  padding: 12px 20px;
+  font-size: 1rem;
+  border-radius: 8px;
   cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease;
 }
 
 .update {
   background-color: #28a745;
   color: #fff;
-  margin-right: 10px;
+  margin: 10px;
 }
 
 .update:hover {
@@ -162,16 +189,17 @@ h1 {
 .cancel {
   background-color: #dc3545;
   color: #fff;
+  margin: 10px;
 }
 
-.cancel:hover {
-  background-color: #c82333;
-}
+
 
 .medicalImage {
   width: 200px;
   height: auto;
-  margin-top: 10px;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
+
+

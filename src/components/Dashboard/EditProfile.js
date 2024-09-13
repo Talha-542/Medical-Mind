@@ -4,14 +4,11 @@ import { auth, db, storage } from '../../firebaseConfig'; // Import storage from
 import { signOut, onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage'; // Firebase storage methods
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import styles from './EditProfile.module.css';
 
 export default function EditProfile() {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [editUser, setEditUser] = useState(false); // State to toggle edit form
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -19,9 +16,9 @@ export default function EditProfile() {
     profession: '',
     education: '',
     role: '',
-    medical: '', // For storing the single image or PDF URL
+    medical: '',
   });
-  const [medicalImage, setMedicalImage] = useState(null); // State to store selected file (image/PDF)
+  const [medicalImage, setMedicalImage] = useState(null);
   const navigate = useNavigate();
   const editFormRef = useRef(null);
 
@@ -35,7 +32,7 @@ export default function EditProfile() {
           if (userDoc.exists()) {
             const userData = userDoc.data();
             setUserData(userData);
-            setFormData(userData); 
+            setFormData(userData);
           } else {
             console.error('No such user document!');
           }
@@ -71,39 +68,37 @@ export default function EditProfile() {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    setMedicalImage(file); 
+    setMedicalImage(file);
   };
 
   const handleUpdate = async (e) => {
     e.preventDefault();
 
-    let imageUrl = formData.medical; 
+    let imageUrl = formData.medical;
     if (medicalImage) {
       if (imageUrl) {
         const previousFileRef = ref(storage, imageUrl);
         try {
-          await deleteObject(previousFileRef); 
+          await deleteObject(previousFileRef);
         } catch (error) {
           console.error('Error deleting previous file:', error);
         }
       }
 
-      
       const storageRef = ref(storage, `medical-records/${auth.currentUser.uid}/${medicalImage.name}`);
-      await uploadBytes(storageRef, medicalImage); 
-      imageUrl = await getDownloadURL(storageRef); 
+      await uploadBytes(storageRef, medicalImage);
+      imageUrl = await getDownloadURL(storageRef);
     }
 
     try {
       const updatedData = {
         ...formData,
-        medical: imageUrl, 
+        medical: imageUrl,
       };
 
       const userDocRef = doc(db, 'users', auth.currentUser.uid);
       await updateDoc(userDocRef, updatedData);
       setUserData(updatedData);
-      setEditUser(false); 
     } catch (error) {
       console.error('Error updating user data:', error);
     }
@@ -123,56 +118,77 @@ export default function EditProfile() {
         <h2>Dashboard</h2>
         <ul>
           <Link to='/dashboard'><li>Profile</li></Link>
-          <li onClick={() => setEditUser(true)}>Edit Profile</li>
+          <li><Link to='/dashboard/edit'>Edit Profile</Link></li>
           <li>Notifications</li>
           <li onClick={handleSignOut}>Logout</li>
         </ul>
       </div>
       <div className={styles.mainContent}>
-        <div className={styles.editIcon} onClick={() => setEditUser(true)}>
-          <FontAwesomeIcon icon={faPencilAlt} />
-          {!editUser && <span> Click on the pencil</span>}
-        </div>
+        <form onSubmit={handleUpdate} className={styles.editForm} ref={editFormRef}>
+          <h2>Edit User</h2>
 
-        {editUser && (
-          <form onSubmit={handleUpdate} className={styles.editForm} ref={editFormRef}>
-            <h2>Edit User</h2>
+          <div className={styles.formGroup}>
+            <label htmlFor="firstName">First Name:</label>
             <input
               type="text"
+              id="firstName"
               name="firstName"
               value={formData.firstName}
               onChange={handleChange}
               placeholder="First Name"
             />
+          </div>
+
+          <div className={styles.formGroup}>
+            <label htmlFor="lastName">Last Name:</label>
             <input
               type="text"
+              id="lastName"
               name="lastName"
               value={formData.lastName}
               onChange={handleChange}
               placeholder="Last Name"
             />
+          </div>
+
+          <div className={styles.formGroup}>
+            <label htmlFor="email">Email:</label>
             <input
               type="email"
+              id="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
               placeholder="Email"
               disabled
             />
+          </div>
+
+          <div className={styles.formGroup}>
+            <label htmlFor="profession">Profession:</label>
             <input
               type="text"
+              id="profession"
               name="profession"
               value={formData.profession}
               onChange={handleChange}
               placeholder="Profession"
             />
+          </div>
+
+          <div className={styles.formGroup}>
+            <label htmlFor="education">Education:</label>
             <input
               type="text"
+              id="education"
               name="education"
               value={formData.education}
               onChange={handleChange}
               placeholder="Education"
             />
+          </div>
+
+          <div className={styles.formGroup}>
             <label htmlFor="medicalImage">Upload Medical Record:</label>
             <input
               type="file"
@@ -181,11 +197,11 @@ export default function EditProfile() {
               onChange={handleFileChange}
               accept="image/*, application/pdf"
             />
+          </div>
 
-            <button className={styles.update} type="submit">Update</button>
-            <button className={styles.cancel} type="button" onClick={() => setEditUser(false)}>Cancel</button>
-          </form>
-        )}
+          <button className={styles.update} type="submit">Update</button>
+          <button className={styles.cancel} type="button" onClick={() => navigate('/dashboard')}>Cancel</button>
+        </form>
       </div>
     </div>
   );
