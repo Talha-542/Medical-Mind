@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { auth, db } from '../../firebaseConfig'; 
+import { auth, db } from '../../firebaseConfig';
 import { signOut, onAuthStateChanged } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore'; 
-import styles from './Dashboard.module.css'; 
+import { doc, getDoc } from 'firebase/firestore';
+import styles from './Dashboard.module.css';
 
 export default function Dashboard() {
   const [userData, setUserData] = useState(null);
@@ -14,9 +14,9 @@ export default function Dashboard() {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         try {
-          const userDocRef = doc(db, 'users', user.uid); 
+          const userDocRef = doc(db, 'users', user.uid);
           const userDoc = await getDoc(userDocRef);
-          
+
           if (userDoc.exists()) {
             setUserData(userDoc.data());
           } else {
@@ -25,10 +25,10 @@ export default function Dashboard() {
         } catch (error) {
           console.error('Error fetching user data:', error);
         } finally {
-          setLoading(false); 
+          setLoading(false);
         }
       } else {
-        navigate('/sign-in'); 
+        navigate('/sign-in');
       }
     });
 
@@ -52,13 +52,15 @@ export default function Dashboard() {
     return <p>No user data available.</p>;
   }
 
+  const hasMedicalRecord = userData.medical && userData.medical.trim() !== '';
+
   return (
     <div className={styles.dashboardContainer}>
       <div className={styles.sidebar}>
         <h2>Dashboard</h2>
         <ul>
           <Link className={styles.dashLink} to='/dashboard'><li>Profile</li></Link>
-         <Link   to='/dashboard/edit'> <li className={styles.dashLink}>Edit Profile</li></Link>
+          <Link to='/dashboard/edit'><li className={styles.dashLink}>Edit Profile</li></Link>
           <li>Notifications</li>
           <li onClick={handleSignOut}>Logout</li>
         </ul>
@@ -69,27 +71,12 @@ export default function Dashboard() {
           <p><strong>Email:</strong> {userData.email}</p>
           <p><strong>Profession:</strong> {userData.profession}</p>
           <p><strong>Education:</strong> {userData.education}</p>
-         <p><strong>Medical Record:</strong></p>
-         {userData.medical && ( 
-    userData.medical.endsWith('.pdf') ? (
-      // Display the PDF using an embedded viewer
-      <embed
-        src={userData.medical}
-        width="100%"
-        height="600px"
-        type="application/pdf"
-        className={styles.medicalFile}
-      />
-    ) : (
-      // Display the image
-      <img
-        src={userData.medical}
-        alt="Medical Record"
-        className={styles.medicalImage}
-      />
-    )
-  )}
+          <p><strong>Medical Record: </strong>{hasMedicalRecord ? 'Available ✅' : 'Not Available'}</p>
 
+       
+
+         
+          
         </div>
       </div>
     </div>
