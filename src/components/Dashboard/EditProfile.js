@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { auth, db, storage } from '../../firebaseConfig'; // Import storage from Firebase
 import { signOut, onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'; // Firebase storage methods
+import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage'; // Firebase storage methods
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import styles from './EditProfile.module.css';
@@ -19,9 +19,9 @@ export default function EditProfile() {
     profession: '',
     education: '',
     role: '',
-    medical: '', // For storing the single image URL
+    medical: '', // For storing the single image or PDF URL
   });
-  const [medicalImage, setMedicalImage] = useState(null); // State to store selected image
+  const [medicalImage, setMedicalImage] = useState(null); // State to store selected file (image/PDF)
   const navigate = useNavigate();
   const editFormRef = useRef(null);
 
@@ -35,7 +35,7 @@ export default function EditProfile() {
           if (userDoc.exists()) {
             const userData = userDoc.data();
             setUserData(userData);
-            setFormData(userData); // Set form data with user data
+            setFormData(userData); 
           } else {
             console.error('No such user document!');
           }
@@ -77,11 +77,18 @@ export default function EditProfile() {
   const handleUpdate = async (e) => {
     e.preventDefault();
 
-
     let imageUrl = formData.medical; 
-
-    
     if (medicalImage) {
+      if (imageUrl) {
+        const previousFileRef = ref(storage, imageUrl);
+        try {
+          await deleteObject(previousFileRef); 
+        } catch (error) {
+          console.error('Error deleting previous file:', error);
+        }
+      }
+
+      
       const storageRef = ref(storage, `medical-records/${auth.currentUser.uid}/${medicalImage.name}`);
       await uploadBytes(storageRef, medicalImage); 
       imageUrl = await getDownloadURL(storageRef); 
@@ -90,13 +97,13 @@ export default function EditProfile() {
     try {
       const updatedData = {
         ...formData,
-        medical: imageUrl, // Store uploaded image URL in 'medical' field
+        medical: imageUrl, 
       };
 
       const userDocRef = doc(db, 'users', auth.currentUser.uid);
       await updateDoc(userDocRef, updatedData);
       setUserData(updatedData);
-      setEditUser(false); // Close the edit form after update
+      setEditUser(false); 
     } catch (error) {
       console.error('Error updating user data:', error);
     }
@@ -122,28 +129,11 @@ export default function EditProfile() {
         </ul>
       </div>
       <div className={styles.mainContent}>
-        {/* <h1>Welcome, {userData.firstName} {userData.lastName}</h1> */}
-        {/* <div className={styles.userInfo}>
-          <p><strong>Email:</strong> {userData.email}</p>
-          <p><strong>Profession:</strong> {userData.profession}</p>
-          <p><strong>Education:</strong> {userData.education}</p>
-          <p><strong>Medical Record:</strong></p>
-          {userData.medical && (
-            <img
-              src={userData.medical}
-              alt="No Medical Record Available"
-              className={styles.medicalImage}
-            />
-          )}
-        </div>*/}
+        <div className={styles.editIcon} onClick={() => setEditUser(true)}>
+          <FontAwesomeIcon icon={faPencilAlt} />
+          {!editUser && <span> Click on the pencil</span>}
+        </div>
 
-        
-<div className={styles.editIcon} onClick={() => setEditUser(true)}>
-  <FontAwesomeIcon icon={faPencilAlt} />
-  {!editUser && <span> Click on the God damn pencil</span>} 
-</div>
-
-       
         {editUser && (
           <form onSubmit={handleUpdate} className={styles.editForm} ref={editFormRef}>
             <h2>Edit User</h2>
@@ -182,7 +172,7 @@ export default function EditProfile() {
               value={formData.education}
               onChange={handleChange}
               placeholder="Education"
-            /> 
+            />
             <label htmlFor="medicalImage">Upload Medical Record:</label>
             <input
               type="file"
