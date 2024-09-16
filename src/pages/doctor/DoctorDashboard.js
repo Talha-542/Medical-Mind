@@ -60,6 +60,7 @@ export default function Dashboard() {
         <ul>
           <Link className={styles.dashLink} to='/doctor-dashboard'><li>Profile</li></Link>
           <Link className={styles.dashLink} to='/doctor-dashboard/patients'><li >View All Patients</li></Link>
+          <Link className={styles.dashLink} to='/doctor-dashboard/calendar'><li >Calendar</li></Link>
           <li>Notifications</li>
           <li onClick={handleSignOut}>Logout</li>
         </ul>
