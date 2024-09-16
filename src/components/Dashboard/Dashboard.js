@@ -63,7 +63,7 @@ export default function Dashboard() {
         <h2>Dashboard</h2>
         <ul>
           <Link className={styles.dashLink} to='/dashboard'><li>Profile</li></Link>
-          <Link to='/dashboard/edit'><li className={styles.dashLink}>Edit Profile</li></Link>
+          <Link className={styles.dashLink} to='/dashboard/edit'><li >Edit Profile</li></Link>
           <li>Notifications</li>
           <li onClick={handleSignOut}>Logout</li>
         </ul>
@@ -74,8 +74,6 @@ export default function Dashboard() {
           <p><strong>Email:</strong> {userData.email}</p>
           <p><strong>Profession:</strong> {userData.profession}</p>
           <p><strong>Education:</strong> {userData.education}</p>
-
-          {/* Display appropriate message based on the presence of a medical record */}
           <p><strong>Medical Record: </strong>{hasMedicalRecord ? 'Available ✅' : 'Not Available'}</p>
 
         

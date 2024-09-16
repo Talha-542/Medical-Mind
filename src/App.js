@@ -12,6 +12,7 @@ import DoctorDashboard from './pages/doctor/DoctorDashboard'
 import AdminDashboard from './components/AdminDashboard/AdminDashboard';
 import ViewAllUsers from './components/AllUsers/ViewAllUsers';
 import EditProfile from './components/Dashboard/EditProfile';
+import AllPatients from './pages/doctor/AllPatients'
 
 
 export default function App() {
@@ -29,6 +30,7 @@ export default function App() {
         <Route path="/admin-dashboard" element={<AdminDashboard/>} />
         <Route path="/view-all-users" element={<ViewAllUsers />} />
         <Route path="/dashboard/edit" element={<EditProfile />} />
+        <Route path="/doctor-dashboard/patients" element={<AllPatients/>} />
 
         <Route
           path="/dashboard"
