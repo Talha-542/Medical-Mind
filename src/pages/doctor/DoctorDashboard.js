@@ -1,7 +1,6 @@
-import Sidebar from '../../components/SideBar/Sidebar'
 import styles from './DoctorDashboard.module.css'
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { auth, db } from '../../firebaseConfig';
 import { signOut, onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore'; 
@@ -56,7 +55,15 @@ export default function Dashboard() {
   return (
     
     <div className={styles.dashboardContainer}>
-      <Sidebar/>
+      <div className={styles.sidebar}>
+        <h2>Dashboard</h2>
+        <ul>
+          <Link className={styles.dashLink} to='/doctor-dashboard'><li>Profile</li></Link>
+          <Link className={styles.dashLink} to='/doctor-dashboard/patients'><li >View All Patients</li></Link>
+          <li>Notifications</li>
+          <li onClick={handleSignOut}>Logout</li>
+        </ul>
+      </div>
       <div className={styles.mainContent}>
         <h1>Welcome, Dr {userData.firstName} {userData.lastName}</h1>
         <div className={styles.userInfo}>
