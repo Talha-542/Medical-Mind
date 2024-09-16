@@ -30,6 +30,7 @@ export default function AllPatients() {
         <ul>
           <Link className={styles.dashLink} to='/doctor-dashboard'><li>Profile</li></Link>
           <Link className={styles.dashLink} to='/doctor-dashboard/patients'><li >View All Patients</li></Link>
+          <li>Calendar</li>
           <li>Notifications</li>
           <li onClick={handleSignOut}>Logout</li>
         </ul>

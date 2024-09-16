@@ -29,7 +29,6 @@ export const getAllPatients = async () => {
         const querySnapshot = await getDocs(q);
 
         querySnapshot.forEach((doc) => {
-            // Add each patient to the array
             patients.push({ id: doc.id, ...doc.data() });
         });
 
